@@ -48,12 +48,11 @@
       z-index: 1;
     }
 
-    /* Allow the No button to move anywhere on the viewport */
     #no {
-      position: fixed;
-      z-index: 9999;
-      transition: left 0.2s ease, top 0.2s ease, transform 0.2s ease;
-      will-change: left, top, transform;
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      transition: left 0.2s ease, top 0.2s ease;
     }
   </style>
 </head>
@@ -61,28 +60,7 @@
 
   <img id="valentine-img" src="https://i.postimg.cc/tgWMy7QZ/IMG-9206.jpg" alt="Valentine image">
 
-
-## Publish with GitHub Pages
-
-- **Automatic deploy:** I added a GitHub Actions workflow at `.github/workflows/deploy.yml` that will publish the repository root to GitHub Pages whenever you push to the `main` branch.
-- **To enable:** push your changes to GitHub (if not already pushed):
-
-```bash
-git add .
-git commit -m "Add GitHub Pages workflow"
-git push origin main
-```
-
-- **Confirm:** open your repository on GitHub → Settings → Pages. The workflow will create a Pages deployment; ensure the Pages permission and branch settings are correct if you prefer a specific source.
-
-- **URL:** once deployed the site will be available at `https://<your-username>.github.io/Safe_Link1/` (replace `<your-username>` with your GitHub username). For a quick preview you can also use:
-
-```
-https://raw.githack.com/<owner>/Safe_Link1/main/index.html
-```
-
-If you want, I can also add a branch-based `gh-pages` deployment or push these changes for you (requires repo push access).
-  <h1 id="valentine-question">May I be your Valentine? ❤️</h1>
+  <h1 id="valentine-question">Will you be my Valentine? ❤️</h1>
 
   <div class="button-container">
     <button id="yes" onclick="yes()">Yes</button>
@@ -92,32 +70,26 @@ If you want, I can also add a branch-based `gh-pages` deployment or push these c
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
-    const minDistance = 96; // minimum distance in pixels
+    const container = document.querySelector(".button-container");
+    const minDistance = 96; // 1 inch away
 
-    // Helper to place No button at least minDistance away from Yes, anywhere in the viewport
+    // Helper to place No button at least minDistance away from Yes
     function placeNoButton() {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
 
-      const yesRect = yesBtn.getBoundingClientRect();
+      const yesLeft = yesBtn.offsetLeft;
+      const yesRight = yesLeft + yesBtn.offsetWidth;
 
       let x, y;
-      let attempts = 0;
 
       do {
-        x = Math.random() * (vw - noBtn.offsetWidth);
-        y = Math.random() * (vh - noBtn.offsetHeight);
-
-        const noCenterX = x + noBtn.offsetWidth / 2;
-        const noCenterY = y + noBtn.offsetHeight / 2;
-        const yesCenterX = yesRect.left + yesRect.width / 2;
-        const yesCenterY = yesRect.top + yesRect.height / 2;
-
-        const dist = Math.hypot(noCenterX - yesCenterX, noCenterY - yesCenterY);
-        if (dist >= minDistance) break;
-
-        attempts++;
-      } while (attempts < 100);
+        x = Math.random() * (containerWidth - noBtn.offsetWidth);
+        y = Math.random() * (containerHeight - noBtn.offsetHeight);
+      } while (
+        x + noBtn.offsetWidth > yesLeft - minDistance &&
+        x < yesRight + minDistance
+      );
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
