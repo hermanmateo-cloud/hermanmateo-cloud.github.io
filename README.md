@@ -40,24 +40,25 @@
     }
 
     button {
-      font-size: 18px;
+      font-size: 16px;
       padding: 10px 20px;
       cursor: pointer;
-      border: 2px solid transparent;
+      border: none;
       border-radius: 5px;
-      background-color: #ff69b4;
+      background-color: #4CAF50;
       color: white;
       font-weight: bold;
-      transition: background-color 0.2s ease;
       box-sizing: border-box;
+      white-space: nowrap;
+      min-width: fit-content;
     }
 
     button:hover {
-      background-color: #ff1493;
+      background-color: #45a049;
     }
 
     button:active {
-      background-color: #c71585;
+      background-color: #3d8b40;
     }
 
     #yes {
