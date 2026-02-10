@@ -1,5 +1,4 @@
 <html lang="en">
-  <meta property="og:image" content=https://tenor.com/cBFmGxYTz0F.gif
 <head>
   <meta charset="UTF-8">
   <title>Valentine?</title>
