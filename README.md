@@ -58,7 +58,7 @@
 
   <img id="valentine-img" src="https://i.postimg.cc/tgWMy7QZ/IMG-9206.jpg" alt="Valentine image">
 
-  <h1 id="valentine-question">Will you be my Valentine? ❤️</h1>
+  <h1 id="valentine-question">May I Be Your Valentine? ❤️</h1>
 
   <div class="button-container">
     <button id="yes" onclick="yes()">Yes</button>
