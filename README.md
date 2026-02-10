@@ -34,42 +34,23 @@
       justify-content: center;
       gap: 20px;
       margin-top: 20px;
+      min-height: 60px; /* space for No button */
       width: 100%;
-      height: 300px;
-      max-width: 600px;
+      max-width: 400px;
     }
 
     button {
-      font-size: 16px;
+      font-size: 18px;
       padding: 10px 20px;
       cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #4CAF50;
-      color: white;
-      font-weight: bold;
-      box-sizing: border-box;
-      white-space: nowrap;
-      min-width: fit-content;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    button:active {
-      background-color: #3d8b40;
-    }
-
-    #yes {
-      position: relative;
       z-index: 1;
     }
 
     #no {
       position: absolute;
+      top: 0;
       z-index: 2;
-      transition: left 0.3s ease, top 0.3s ease;
+      transition: left 0.2s ease, top 0.2s ease;
     }
   </style>
 </head>
@@ -88,71 +69,42 @@
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
     const container = document.querySelector(".button-container");
-    const minDistance = 100;
+    const minDistance = 96; // 1 inch away
 
     // Helper to place No button at least minDistance away from Yes
     function placeNoButton() {
-      const containerRect = container.getBoundingClientRect();
-      const containerWidth = containerRect.width;
-      const containerHeight = containerRect.height;
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
 
-      const yesBtnRect = yesBtn.getBoundingClientRect();
-      const noBtnWidth = noBtn.offsetWidth;
-      const noBtnHeight = noBtn.offsetHeight;
-
-      // Calculate Yes button position relative to container
-      const yesRelativeLeft = yesBtnRect.left - containerRect.left;
-      const yesRelativeTop = yesBtnRect.top - containerRect.top;
-      const yesRight = yesRelativeLeft + yesBtnRect.width;
-      const yesBottom = yesRelativeTop + yesBtnRect.height;
+      const yesLeft = yesBtn.offsetLeft;
+      const yesRight = yesLeft + yesBtn.offsetWidth;
 
       let x, y;
-      let attempts = 0;
-      const maxAttempts = 100;
 
       do {
-        x = Math.random() * (containerWidth - noBtnWidth);
-        y = Math.random() * (containerHeight - noBtnHeight);
-        attempts++;
-
-        // Check if position is far enough from Yes button
-        const noLeft = x;
-        const noRight = x + noBtnWidth;
-        const noTop = y;
-        const noBottom = y + noBtnHeight;
-
-        const tooClose =
-          noRight > yesRelativeLeft - minDistance &&
-          noLeft < yesRight + minDistance &&
-          noBottom > yesRelativeTop - minDistance &&
-          noTop < yesBottom + minDistance;
-
-        if (!tooClose) break;
-      } while (attempts < maxAttempts);
-
-      // Clamp position to stay within container
-      x = Math.max(0, Math.min(x, containerWidth - noBtnWidth));
-      y = Math.max(0, Math.min(y, containerHeight - noBtnHeight));
+        x = Math.random() * (containerWidth - noBtn.offsetWidth);
+        y = Math.random() * (containerHeight - noBtn.offsetHeight);
+      } while (
+        x + noBtn.offsetWidth > yesLeft - minDistance &&
+        x < yesRight + minDistance
+      );
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     }
 
     // Place No button at start
-    window.addEventListener("load", placeNoButton);
+    placeNoButton();
 
     // Move No button every time it's clicked
     noBtn.addEventListener("click", placeNoButton);
-
-    // Also reposition on window resize
-    window.addEventListener("resize", placeNoButton);
 
     function yes() {
       document.body.style.background = "darkcyan";
 
       const question = document.getElementById("valentine-question");
       const img = document.getElementById("valentine-img");
-      question.textContent = "Yay! Happy Valentine's Day! 💖";
+      question.textContent = "Yay! Happy Valentine’s Day! 💖";
       img.src = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
       img.alt = "Celebration";
 
